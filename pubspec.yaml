@@ -1,0 +1,21 @@
+name: scopes
+description: "A package that helps with managing dependency scopes in the application"
+version: 0.0.1
+
+environment:
+  sdk: '>=3.0.5 <4.0.0'
+  flutter: ">=3.32.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  # rules
+  mjk_lint_rules: ^4.0.3
+
+# The following section is specific to Flutter packages.
+# flutter:
