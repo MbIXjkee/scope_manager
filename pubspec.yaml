@@ -1,6 +1,7 @@
 name: scopes
 description: "A package that helps with managing dependency scopes in the application"
 version: 0.0.1
+homepage: "https://github.com/MbIXjkee"
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
