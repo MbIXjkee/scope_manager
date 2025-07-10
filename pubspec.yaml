@@ -1,4 +1,4 @@
-name: scopes
+name: scope_manager
 description: "A package that helps with managing dependency scopes in the application"
 version: 0.0.1
 homepage: "https://github.com/MbIXjkee"

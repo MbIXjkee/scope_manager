@@ -1,4 +1,4 @@
-import 'package:scopes/src/base/dependency_scope.dart';
+import 'package:scope_manager/src/base/dependency_scope.dart';
 
 abstract interface class ScopeResolver {
   void subscribeToScope<S extends FeatureScope>(

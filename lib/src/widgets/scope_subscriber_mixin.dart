@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scopes/src/base/dependency_scope.dart';
-import 'package:scopes/src/base/scope_resolver.dart';
-import 'package:scopes/src/widgets/scopes.dart';
+import 'package:scope_manager/src/base/dependency_scope.dart';
+import 'package:scope_manager/src/base/scope_resolver.dart';
+import 'package:scope_manager/src/widgets/scopes.dart';
 
 mixin ScopeSubscriberMixin<S extends FeatureScope, W extends StatefulWidget>
     on State<W> {

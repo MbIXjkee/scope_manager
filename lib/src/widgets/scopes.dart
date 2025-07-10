@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scopes/src/base/dependency_scope.dart';
-import 'package:scopes/src/base/scope_resolver.dart';
-import 'package:scopes/src/scope_manager.dart';
+import 'package:scope_manager/src/base/dependency_scope.dart';
+import 'package:scope_manager/src/base/scope_resolver.dart';
+import 'package:scope_manager/src/scope_manager.dart';
 
 class Scopes extends InheritedWidget implements ScopeResolver {
   final ScopeResolver _resolver;

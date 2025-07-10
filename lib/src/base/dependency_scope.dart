@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:scopes/src/base/scope_resolver.dart';
+import 'package:scope_manager/src/base/scope_resolver.dart';
 
 abstract interface class DependencyScope {}
 

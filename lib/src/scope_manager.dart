@@ -1,6 +1,6 @@
-import 'package:scopes/src/base/dependency_scope.dart';
-import 'package:scopes/src/base/scope_registry.dart';
-import 'package:scopes/src/base/scope_resolver.dart';
+import 'package:scope_manager/src/base/dependency_scope.dart';
+import 'package:scope_manager/src/base/scope_registry.dart';
+import 'package:scope_manager/src/base/scope_resolver.dart';
 
 class ScopeManager implements ScopeRegistry, ScopeResolver {
   static final _instance = ScopeManager._internal();
