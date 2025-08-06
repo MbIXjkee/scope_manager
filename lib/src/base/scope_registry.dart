@@ -1,6 +1,9 @@
 import 'package:scope_manager/src/base/dependency_scope.dart';
+import 'package:scope_manager/src/base/scope_resolver.dart';
 
-typedef ScopeFactory<S extends FeatureScope> = S Function();
+typedef ScopeFactory<S extends FeatureScope> = S Function(
+  ScopeResolver resolver,
+);
 
 abstract interface class ScopeRegistry {
   Future<void> init(

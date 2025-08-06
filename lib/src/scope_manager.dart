@@ -103,7 +103,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
           'before attempting to subscribe to this scope.',
         );
       } else {
-        _scopes[S] = {tag: factory()};
+        _scopes[S] = {tag: factory(this)};
       }
     }
   }
