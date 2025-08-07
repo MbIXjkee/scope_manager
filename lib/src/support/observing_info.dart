@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:scope_manager/scope_manager.dart';
 import 'package:scope_manager/src/base/scope_observer.dart';
