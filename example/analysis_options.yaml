@@ -1,0 +1,6 @@
+include: package:mjk_lint_rules/mjk_lint_rules.yaml
+
+analyzer:
+  exclude:
+    - "build/**"
+    - "**/*.g.dart"
