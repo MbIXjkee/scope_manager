@@ -5,10 +5,12 @@ typedef ScopeFactory<S extends FeatureScope> = S Function(
   ScopeResolver resolver,
 );
 
+// observable may cause additional performance pressure.
 abstract interface class ScopeRegistry {
   Future<void> init(
     RootScope rootScope, {
     List<ScopeBinding>? bindings,
+    bool observable,
   });
 
   void registerScopeBinding<S extends FeatureScope>(

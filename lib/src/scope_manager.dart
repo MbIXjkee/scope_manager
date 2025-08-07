@@ -1,8 +1,13 @@
+import 'dart:async';
+import 'dart:collection';
+
+import 'package:flutter/foundation.dart';
 import 'package:scope_manager/src/base/dependency_scope.dart';
+import 'package:scope_manager/src/base/scope_observer.dart';
 import 'package:scope_manager/src/base/scope_registry.dart';
 import 'package:scope_manager/src/base/scope_resolver.dart';
 
-class ScopeManager implements ScopeRegistry, ScopeResolver {
+class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   static final _instance = ScopeManager._internal();
 
   final _scopeFactories = <Type, ScopeFactory>{};
@@ -11,11 +16,26 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
 
   final _scopes = <Type, Map<Object?, FeatureScope>>{};
 
+  late final _subscribersPublisher =
+      StreamController<Map<Type, Map<Object?, Set<Object>>>>.broadcast();
+
+  late final _scopesPublisher =
+      StreamController<Map<Type, Map<Object?, FeatureScope>>>.broadcast();
+
   late final Type _rootType;
   late final RootScope _rootScope;
   var _isInit = false;
+  var _isObservable = false;
 
   static ScopeManager get instance => _instance;
+
+  @override
+  Stream<Map<Type, Map<Object?, FeatureScope>>> get scopesPublisher =>
+      _scopesPublisher.stream;
+
+  @override
+  Stream<Map<Type, Map<Object?, Set<Object>>>> get subscribersPublisher =>
+      _subscribersPublisher.stream;
 
   ScopeManager._internal();
 
@@ -23,6 +43,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
   Future<void> init(
     RootScope rootScope, {
     List<ScopeBinding>? bindings,
+    bool observable = kDebugMode,
   }) async {
     if (_isInit) {
       throw StateError(
@@ -36,6 +57,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
       final type = rootScope.runtimeType;
       _rootType = type;
       _rootScope = rootScope;
+      _isObservable = observable;
       _isInit = true;
 
       if (bindings != null) {
@@ -106,6 +128,8 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
         _scopes[S] = {tag: factory(this)};
       }
     }
+
+    _updateOvservability();
   }
 
   @override
@@ -146,6 +170,8 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
 
       scope?.dispose();
     }
+
+    _updateOvservability();
   }
 
   @override
@@ -173,6 +199,33 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
       );
     }
     return scope as S;
+  }
+
+  Future<void> dispose() async {
+    await _subscribersPublisher.close();
+    await _scopesPublisher.close();
+  }
+
+  void _updateOvservability() {
+    if (_isObservable) {
+      final scopes = _scopes;
+      final obsScopes = <Type, Map<Object?, FeatureScope>>{};
+      for (final entry in scopes.entries) {
+        final scopeType = entry.key;
+        final scopeMap = entry.value;
+        obsScopes[scopeType] = UnmodifiableMapView(scopeMap);
+      }
+      _scopesPublisher.add(UnmodifiableMapView(obsScopes));
+
+      final subscribers = _subscribers;
+      final obsSubscribers = <Type, Map<Object?, Set<Object>>>{};
+      for (final entry in subscribers.entries) {
+        final scopeType = entry.key;
+        final subMap = entry.value;
+        obsSubscribers[scopeType] = UnmodifiableMapView(subMap);
+      }
+      _subscribersPublisher.add(UnmodifiableMapView(obsSubscribers));
+    }
   }
 
   void _validateParameter<S extends DependencyScope>() {
