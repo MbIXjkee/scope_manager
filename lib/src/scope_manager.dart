@@ -50,7 +50,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
   void registerScopeBinding<S extends FeatureScope>(
     ScopeBinding<S> binding,
   ) {
-    registerScopeFactory(binding.factory);
+    registerScopeFactory<S>(binding.factory);
   }
 
   @override
@@ -88,7 +88,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
     }
     var tagSubscribers = _subscribers[S]![tag];
     if (tagSubscribers == null) {
-      tagSubscribers = {subscriber};
+      tagSubscribers = {};
       _subscribers[S]![tag] = tagSubscribers;
     }
 
@@ -136,7 +136,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver {
 
     if (scopeSubs.isEmpty) {
       // No subscribers left for this scope type.
-      final scope = _scopes[S.runtimeType]?.remove(tag);
+      final scope = _scopes[S]?.remove(tag);
 
       assert(
         scope != null,
