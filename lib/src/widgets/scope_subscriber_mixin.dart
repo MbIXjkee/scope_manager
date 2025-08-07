@@ -19,7 +19,7 @@ mixin ScopeSubscriberMixin<S extends FeatureScope, W extends StatefulWidget>
 
   @override
   void dispose() {
-    _resolver.unsubscribeFromScope(this);
+    _resolver.unsubscribeFromScope<S>(this);
 
     super.dispose();
   }
