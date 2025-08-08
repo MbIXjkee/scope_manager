@@ -146,21 +146,29 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
       );
     }
 
-    final scopeSubs = _subscribers[S]?[tag];
-    if (scopeSubs == null) {
-      // There are no subscribers for this scope type.
+    final scopeSubGroup = _subscribers[S];
+    final scopeTagSubs = scopeSubGroup?[tag];
+    if (scopeTagSubs == null) {
+      // There are no subscribers for this scope.
       return;
     }
 
-    final isRemoved = scopeSubs.remove(subscriber);
+    final isRemoved = scopeTagSubs.remove(subscriber);
     if (!isRemoved) {
       // Nothing has changed;
       return;
     }
 
-    if (scopeSubs.isEmpty) {
-      // No subscribers left for this scope type.
-      final scope = _scopes[S]?.remove(tag);
+    if (scopeTagSubs.isEmpty) {
+      scopeSubGroup!.remove(tag);
+      // chekck if subscribers group is empty too.
+      if (scopeSubGroup.isEmpty) {
+        _subscribers.remove(S);
+      }
+
+      // No subscribers left for this scope.
+      final scopeGroup = _scopes[S];
+      final scope = scopeGroup?.remove(tag);
 
       assert(
         scope != null,
@@ -168,6 +176,9 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
         'but was not found.',
       );
 
+      if (scopeGroup!.isEmpty) {
+        _scopes.remove(S);
+      }
       scope?.dispose();
     }
 
