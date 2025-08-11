@@ -86,30 +86,109 @@ class _Playground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
+    return Scaffold(
+      body: ListView(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Feature Scopes Playground',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            child: Center(
+              child: Text(
+                'Feature Scopes Playground',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              ),
             ),
           ),
-          _ScopeCounter(
+          const _ScopeCounter(
             title: 'Scope 1',
             holder: Some1ScopeWidget(),
           ),
-          _ScopeCounter(
+          const _ScopeCounter(
             title: 'Scope 2',
             holder: Some2ScopeWidget(),
           ),
-          _ScopeCounter(
+          const _ScopeCounter(
             title: 'Scope 3',
             holder: Some3ScopeWidget(),
           ),
+          _TaggedScopeCounter(
+            title: 'Tagged Scope 1',
+            builder: (tag) => _Tagged1ScopeWidget(key: ValueKey(tag)),
+          ),
+          _TaggedScopeCounter(
+            title: 'Tagged Scope 2',
+            builder: (tag) => _Tagged2ScopeWidget(key: ValueKey(tag)),
+          ),
+          _TaggedScopeCounter(
+            title: 'Tagged Scope 3',
+            builder: (tag) => _Tagged3ScopeWidget(key: ValueKey(tag)),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _TaggedScopeCounter extends StatefulWidget {
+  final String _title;
+  final Widget Function(String) _builder;
+
+  const _TaggedScopeCounter({
+    required String title,
+    required Widget Function(String) builder,
+  }) : _builder = builder,
+       _title = title;
+
+  @override
+  State<_TaggedScopeCounter> createState() => __TaggedScopeCounterState();
+}
+
+class __TaggedScopeCounterState extends State<_TaggedScopeCounter> {
+  final _tags = <String>{};
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            widget._title,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            decoration: const InputDecoration(
+              labelText: 'Enter tag',
+            ),
+            onSubmitted: (value) {
+              setState(() {
+                if (value.isNotEmpty) {
+                  _tags.add(value);
+                }
+              });
+            },
+          ),
+        ),
+        for (final tag in _tags)
+          Row(
+            key: ValueKey(tag),
+            children: [
+              Text(tag),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _tags.remove(tag);
+                  });
+                },
+                child: const Text('-'),
+              ),
+              widget._builder(tag),
+            ],
+          ),
+      ],
     );
   }
 }
@@ -215,6 +294,60 @@ class Some3ScopeWidget extends StatefulWidget {
 
 class _Some3ScopeWidgetState extends State<Some3ScopeWidget>
     with ScopeSubscriberMixin<ISome3Scope, Some3ScopeWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
+  }
+}
+
+class _Tagged1ScopeWidget extends StatefulWidget {
+  const _Tagged1ScopeWidget({super.key});
+
+  @override
+  State<_Tagged1ScopeWidget> createState() => _Tagged1ScopeWidgetState();
+}
+
+class _Tagged1ScopeWidgetState extends State<_Tagged1ScopeWidget>
+    with TaggedScopeSubscriberMixin<ISome1Scope, _Tagged1ScopeWidget> {
+  @override
+  Object? get scopeTag => widget.key;
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
+  }
+}
+
+class _Tagged2ScopeWidget extends StatefulWidget {
+  const _Tagged2ScopeWidget({super.key});
+
+  @override
+  State<_Tagged2ScopeWidget> createState() => _Tagged2ScopeWidgetState();
+}
+
+class _Tagged2ScopeWidgetState extends State<_Tagged2ScopeWidget>
+    with TaggedScopeSubscriberMixin<ISome2Scope, _Tagged2ScopeWidget> {
+  @override
+  Object? get scopeTag => widget.key;
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
+  }
+}
+
+class _Tagged3ScopeWidget extends StatefulWidget {
+  const _Tagged3ScopeWidget({super.key});
+
+  @override
+  State<_Tagged3ScopeWidget> createState() => _Tagged3ScopeWidgetState();
+}
+
+class _Tagged3ScopeWidgetState extends State<_Tagged3ScopeWidget>
+    with TaggedScopeSubscriberMixin<ISome3Scope, _Tagged3ScopeWidget> {
+  @override
+  Object? get scopeTag => widget.key;
+
   @override
   Widget build(BuildContext context) {
     return const SizedBox.shrink();
