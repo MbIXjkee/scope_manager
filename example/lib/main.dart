@@ -89,9 +89,9 @@ class _Playground extends StatefulWidget {
 }
 
 class _PlaygroundState extends State<_Playground> {
-  var _firstScopeIsActive = false;
-  var _secondScopeIsActive = false;
-  var _thirdScopeIsActive = false;
+  var _firstScopeCount = 0;
+  var _secondScopeCount = 0;
+  var _thirdScopeCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -105,41 +105,120 @@ class _PlaygroundState extends State<_Playground> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
+          _ScopeCounter(
+            onPlus: () {
               setState(() {
-                _firstScopeIsActive = !_firstScopeIsActive;
+                _firstScopeCount++;
               });
             },
-            child: Text(
-              _firstScopeIsActive ? 'Deactivate Scope 1' : 'Activate Scope 1',
-            ),
-          ),
-          if (_firstScopeIsActive) const Some1ScopeWidget(),
-          ElevatedButton(
-            onPressed: () {
+            onMinus: () {
               setState(() {
-                _secondScopeIsActive = !_secondScopeIsActive;
+                if (_firstScopeCount > 0) {
+                  _firstScopeCount--;
+                }
               });
             },
-            child: Text(
-              _secondScopeIsActive ? 'Deactivate Scope 2' : 'Activate Scope 2',
-            ),
+            count: _firstScopeCount,
+            title: 'Scope 1',
           ),
-          if (_secondScopeIsActive) const Some2ScopeWidget(),
-          ElevatedButton(
-            onPressed: () {
+          Row(
+            children: [
+              for (var i = 0; i < _firstScopeCount; i++)
+                const Some1ScopeWidget(),
+            ],
+          ),
+          _ScopeCounter(
+            onPlus: () {
               setState(() {
-                _thirdScopeIsActive = !_thirdScopeIsActive;
+                _secondScopeCount++;
               });
             },
-            child: Text(
-              _thirdScopeIsActive ? 'Deactivate Scope 3' : 'Activate Scope 3',
-            ),
+            onMinus: () {
+              setState(() {
+                if (_secondScopeCount > 0) {
+                  _secondScopeCount--;
+                }
+              });
+            },
+            count: _secondScopeCount,
+            title: 'Scope 2',
           ),
-          if (_thirdScopeIsActive) const Some3ScopeWidget(),
+          Row(
+            children: [
+              for (var i = 0; i < _secondScopeCount; i++)
+                const Some2ScopeWidget(),
+            ],
+          ),
+          _ScopeCounter(
+            onPlus: () {
+              setState(() {
+                _thirdScopeCount++;
+              });
+            },
+            onMinus: () {
+              setState(() {
+                if (_thirdScopeCount > 0) {
+                  _thirdScopeCount--;
+                }
+              });
+            },
+            count: _thirdScopeCount,
+            title: 'Scope 3',
+          ),
+          Row(
+            children: [
+              for (var i = 0; i < _thirdScopeCount; i++)
+                const Some3ScopeWidget(),
+            ],
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _ScopeCounter extends StatelessWidget {
+  final VoidCallback _onPlus;
+  final VoidCallback _onMinus;
+  final int _count;
+  final String _title;
+
+  const _ScopeCounter({
+    required VoidCallback onPlus,
+    required VoidCallback onMinus,
+    required int count,
+    required String title,
+  }) : _onPlus = onPlus,
+       _onMinus = onMinus,
+       _count = count,
+       _title = title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            _title,
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: _onMinus,
+              child: const Text('-'),
+            ),
+            Text('$_count'),
+            ElevatedButton(
+              onPressed: _onPlus,
+              child: const Text('+'),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
