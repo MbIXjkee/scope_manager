@@ -17,10 +17,10 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   final _scopes = <Type, Map<Object?, FeatureScope>>{};
 
   late final _subscribersPublisher =
-      StreamController<Map<Type, Map<Object?, Set<Object>>>>.broadcast();
+      ValueNotifier<Map<Type, Map<Object?, Set<Object>>>>({});
 
   late final _scopesPublisher =
-      StreamController<Map<Type, Map<Object?, FeatureScope>>>.broadcast();
+      ValueNotifier<Map<Type, Map<Object?, FeatureScope>>>({});
 
   late final Type _rootType;
   late final RootScope _rootScope;
@@ -30,12 +30,12 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   static ScopeManager get instance => _instance;
 
   @override
-  Stream<Map<Type, Map<Object?, FeatureScope>>> get scopesPublisher =>
-      _scopesPublisher.stream;
+  ValueNotifier<Map<Type, Map<Object?, FeatureScope>>> get scopesPublisher =>
+      _scopesPublisher;
 
   @override
-  Stream<Map<Type, Map<Object?, Set<Object>>>> get subscribersPublisher =>
-      _subscribersPublisher.stream;
+  ValueListenable<Map<Type, Map<Object?, Set<Object>>>>
+      get subscribersPublisher => _subscribersPublisher;
 
   ScopeManager._internal();
 
@@ -213,8 +213,8 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   }
 
   Future<void> dispose() async {
-    await _subscribersPublisher.close();
-    await _scopesPublisher.close();
+    _subscribersPublisher.dispose();
+    _scopesPublisher.dispose();
   }
 
   void _updateOvservability() {
@@ -226,7 +226,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
         final scopeMap = entry.value;
         obsScopes[scopeType] = UnmodifiableMapView(scopeMap);
       }
-      _scopesPublisher.add(UnmodifiableMapView(obsScopes));
+      _scopesPublisher.value = UnmodifiableMapView(obsScopes);
 
       final subscribers = _subscribers;
       final obsSubscribers = <Type, Map<Object?, Set<Object>>>{};
@@ -235,7 +235,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
         final subMap = entry.value;
         obsSubscribers[scopeType] = UnmodifiableMapView(subMap);
       }
-      _subscribersPublisher.add(UnmodifiableMapView(obsSubscribers));
+      _subscribersPublisher.value = UnmodifiableMapView(obsSubscribers);
     }
   }
 
