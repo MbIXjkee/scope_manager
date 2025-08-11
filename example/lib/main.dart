@@ -81,24 +81,15 @@ class _Content extends StatelessWidget {
   }
 }
 
-class _Playground extends StatefulWidget {
+class _Playground extends StatelessWidget {
   const _Playground();
 
   @override
-  State<_Playground> createState() => _PlaygroundState();
-}
-
-class _PlaygroundState extends State<_Playground> {
-  var _firstScopeCount = 0;
-  var _secondScopeCount = 0;
-  var _thirdScopeCount = 0;
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Column(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
               'Feature Scopes Playground',
@@ -106,70 +97,16 @@ class _PlaygroundState extends State<_Playground> {
             ),
           ),
           _ScopeCounter(
-            onPlus: () {
-              setState(() {
-                _firstScopeCount++;
-              });
-            },
-            onMinus: () {
-              setState(() {
-                if (_firstScopeCount > 0) {
-                  _firstScopeCount--;
-                }
-              });
-            },
-            count: _firstScopeCount,
             title: 'Scope 1',
-          ),
-          Row(
-            children: [
-              for (var i = 0; i < _firstScopeCount; i++)
-                const Some1ScopeWidget(),
-            ],
+            holder: Some1ScopeWidget(),
           ),
           _ScopeCounter(
-            onPlus: () {
-              setState(() {
-                _secondScopeCount++;
-              });
-            },
-            onMinus: () {
-              setState(() {
-                if (_secondScopeCount > 0) {
-                  _secondScopeCount--;
-                }
-              });
-            },
-            count: _secondScopeCount,
             title: 'Scope 2',
-          ),
-          Row(
-            children: [
-              for (var i = 0; i < _secondScopeCount; i++)
-                const Some2ScopeWidget(),
-            ],
+            holder: Some2ScopeWidget(),
           ),
           _ScopeCounter(
-            onPlus: () {
-              setState(() {
-                _thirdScopeCount++;
-              });
-            },
-            onMinus: () {
-              setState(() {
-                if (_thirdScopeCount > 0) {
-                  _thirdScopeCount--;
-                }
-              });
-            },
-            count: _thirdScopeCount,
             title: 'Scope 3',
-          ),
-          Row(
-            children: [
-              for (var i = 0; i < _thirdScopeCount; i++)
-                const Some3ScopeWidget(),
-            ],
+            holder: Some3ScopeWidget(),
           ),
         ],
       ),
@@ -177,21 +114,22 @@ class _PlaygroundState extends State<_Playground> {
   }
 }
 
-class _ScopeCounter extends StatelessWidget {
-  final VoidCallback _onPlus;
-  final VoidCallback _onMinus;
-  final int _count;
+class _ScopeCounter extends StatefulWidget {
   final String _title;
+  final Widget _holder;
 
   const _ScopeCounter({
-    required VoidCallback onPlus,
-    required VoidCallback onMinus,
-    required int count,
     required String title,
-  }) : _onPlus = onPlus,
-       _onMinus = onMinus,
-       _count = count,
-       _title = title;
+    required Widget holder,
+  }) : _title = title,
+       _holder = holder;
+
+  @override
+  State<_ScopeCounter> createState() => _ScopeCounterState();
+}
+
+class _ScopeCounterState extends State<_ScopeCounter> {
+  var _count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -201,21 +139,36 @@ class _ScopeCounter extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            _title,
+            widget._title,
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              onPressed: _onMinus,
+              onPressed: () {
+                setState(() {
+                  if (_count > 0) {
+                    _count--;
+                  }
+                });
+              },
               child: const Text('-'),
             ),
             Text('$_count'),
             ElevatedButton(
-              onPressed: _onPlus,
+              onPressed: () {
+                setState(() {
+                  _count++;
+                });
+              },
               child: const Text('+'),
             ),
+          ],
+        ),
+        Row(
+          children: [
+            for (var i = 0; i < _count; i++) widget._holder,
           ],
         ),
       ],
