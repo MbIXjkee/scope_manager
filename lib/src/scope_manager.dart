@@ -62,7 +62,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
 
       if (bindings != null) {
         for (final binding in bindings) {
-          registerScopeFactory(binding.factory);
+          _registerScopeFactoryTyped(binding.scopeType, binding.factory);
         }
       }
     }
@@ -79,16 +79,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   void registerScopeFactory<S extends FeatureScope>(
     ScopeFactory<S> factory,
   ) {
-    _validateIsInit();
-    _validateParameter<S>();
-    if (_scopeFactories[S] != null) {
-      throw StateError(
-        'A scope factory for type $S is already registered. Please ensure '
-        'that you do not register the same scope factory multiple times.',
-      );
-    }
-
-    _scopeFactories[S] = factory;
+    _registerScopeFactoryTyped(S, factory);
   }
 
   @override
@@ -241,10 +232,28 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
     }
   }
 
+  void _registerScopeFactoryTyped(Type scopeType, ScopeFactory factory) {
+    _validateIsInit();
+    _validateParameterType(scopeType);
+    if (_scopeFactories[scopeType] != null) {
+      throw StateError(
+        'A scope factory for type $scopeType is already registered. '
+        'Please ensure that you do not register the same scope factory '
+        'multiple times.',
+      );
+    }
+
+    _scopeFactories[scopeType] = factory;
+  }
+
   void _validateParameter<S extends DependencyScope>() {
-    if (S == RootScope || S == FeatureScope || S == DependencyScope) {
+    _validateParameterType(S);
+  }
+
+  void _validateParameterType(Type type) {
+    if (type == RootScope || type == FeatureScope || type == DependencyScope) {
       throw ArgumentError(
-        'Invalid generic parameter: $S.'
+        'Invalid generic parameter: $type.'
         '\nDo not use interfaces like DependencyScope, RootScope or '
         'FeatureScope directly.'
         '\nPass the actual implementing class '
