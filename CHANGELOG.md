@@ -1,4 +1,6 @@
 ## Unreleased
+
+## 0.0.4
 ### Added
 * Scope Manager can be observed, for debug purpose.
 * Widget showing current state of scopes and subscribers, for debug purpose.
