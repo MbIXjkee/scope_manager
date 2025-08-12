@@ -6,6 +6,7 @@
 ### Fixed
 * Problem with state mixin, that didn't provide a subscribing type correctly.
 * Subscribing to the same scope with different tags do not override list of holded scopes anymore.
+* Incorrect type definition during factories registration while init.
 
 ## 0.0.3
 ### Fixed
