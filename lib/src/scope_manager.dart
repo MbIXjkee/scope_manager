@@ -125,7 +125,9 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
           'before attempting to subscribe to this scope.',
         );
       } else {
-        _scopes[S] = {tag: factory(this)};
+        final currentScopes = _scopes[S] ?? {};
+        currentScopes[tag] = factory(this);
+        _scopes[S] = currentScopes;
       }
     }
 
