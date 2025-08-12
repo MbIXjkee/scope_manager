@@ -194,12 +194,17 @@ class _ScopeGroupSubscribers extends StatelessWidget {
                     child: Wrap(
                       children: subscriberSet
                           .map(
-                            (e) => Text(
-                              e.toString(),
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12,
+                            (e) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                              ),
+                              child: Text(
+                                e.toString(),
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
                           )
