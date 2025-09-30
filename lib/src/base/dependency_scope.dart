@@ -20,7 +20,8 @@ abstract interface class RootScope extends DependencyScope {
 /// An interface for the scope of dependencies that can be created or destroyed
 /// on demand.
 ///
-/// Scopes of this type usually contain dependencies grouped for a specific reason:
+/// Scopes of this type usually contain dependencies grouped for
+/// a specific reason:
 ///  - used only in the authenticated area;
 ///  - used for a specific feature;
 ///  - etc.
