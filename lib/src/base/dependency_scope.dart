@@ -5,41 +5,40 @@ import 'package:scope_manager/scope_manager.dart';
 abstract interface class DependencyScope {}
 
 /// An interface for the scope of dependencies that is alive for the
-/// whole application lifetime.
+/// entire application lifetime.
 ///
 /// It has an asynchronous initialization process and is never destroyed.
-/// It is a single mandatory dependency scope, and it always exists.
+/// It is a single, mandatory dependency scope that always exists.
 abstract interface class RootScope extends DependencyScope {
   /// Runs a process of the scope initialization.
-  /// 
+  ///
   /// This method is automatically called by [ScopeManager] during
-  /// its initialization, and should not be called manually.
+  /// its initialization and should not be called manually.
   Future<void> init();
 }
 
 /// An interface for the scope of dependencies that can be created or destroyed
 /// on demand.
 ///
-/// Scopes of this type usually contain dependencies grouped by some reason:
-///  - used only in authenticated zone;
-///  - used for specific feature;
+/// Scopes of this type usually contain dependencies grouped for a specific reason:
+///  - used only in the authenticated area;
+///  - used for a specific feature;
 ///  - etc.
-/// Due to creating these scopes on demand, they cannot have 
-/// asynchronious intialization.
-/// These scopes are created as soon as the first subscriber on them appears,
-/// and they are keeping alive while at least one subscriber stil exists.
-/// 
-/// When one [FeatureScope] uses a dependency from another [FeatureScope],
-/// it should become a subscriber of it, use [bindWith] for this purpose.
-/// When the dependency is not needed anymore, use [unbindFrom] to release
-/// a subscribed scope.
+/// Because these scopes are created on demand, they cannot have asynchronous
+/// initialization. These scopes are created as soon as the first subscriber
+/// appears and remain alive while at least one subscriber still exists.
+///
+/// When one [FeatureScope] depends on another [FeatureScope], the dependent
+/// scope should subscribe to the dependee. Use [bindWith] for this purpose.
+/// When the dependency is no longer needed, use [unbindFrom] to release the
+/// subscription to that scope.
 abstract interface class FeatureScope extends DependencyScope {
   /// Subscribes this [FeatureScope] to another to safely use
-  /// dependencies from it.
+  /// that scope's dependencies.
   @protected
   S bindWith<S extends FeatureScope>();
 
-  /// Unsubscribes this [FeatureScope] from another previously subscribed.
+  /// Unsubscribes this [FeatureScope] from a previously subscribed scope.
   @protected
   void unbindFrom<C extends FeatureScope>();
 
@@ -47,8 +46,9 @@ abstract interface class FeatureScope extends DependencyScope {
   void dispose();
 }
 
-/// A base implementation of [FeatureScope]. Should be extended by real
-/// dependency scopes in the application.
+/// A base implementation of [FeatureScope].
+///
+/// Extend this class to implement feature-specific dependency scopes.
 abstract class BaseFeatureScope implements FeatureScope {
   @protected
   final ScopeResolver resolver;
