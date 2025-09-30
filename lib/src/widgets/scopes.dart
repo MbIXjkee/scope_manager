@@ -3,6 +3,7 @@ import 'package:scope_manager/src/base/dependency_scope.dart';
 import 'package:scope_manager/src/base/scope_resolver.dart';
 import 'package:scope_manager/src/scope_manager.dart';
 
+/// Provides access to the scope resolving functionality via the [BuildContext].
 class Scopes extends InheritedWidget implements ScopeResolver {
   final ScopeResolver _resolver;
 
@@ -12,6 +13,7 @@ class Scopes extends InheritedWidget implements ScopeResolver {
     ScopeResolver? resolver,
   }) : _resolver = resolver ?? ScopeManager.instance;
 
+  /// Retrieves the nearest [ScopeResolver] instance from the given [context].
   static ScopeResolver of(BuildContext context) {
     final scopes = context.getInheritedWidgetOfExactType<Scopes>();
     assert(
