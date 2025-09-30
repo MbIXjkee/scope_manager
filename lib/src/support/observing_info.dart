@@ -4,6 +4,12 @@ import 'package:flutter/scheduler.dart';
 import 'package:scope_manager/scope_manager.dart';
 import 'package:scope_manager/src/base/scope_observer.dart';
 
+/// A support widget that displays information about currently active
+/// [FeatureScope] instances and their subscribers.
+///
+/// Useful for development and debugging.
+///
+/// Information is only available in observable mode.
 class ObservingInfo extends StatefulWidget {
   final ScopeObserver observer;
 
