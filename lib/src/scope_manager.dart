@@ -6,7 +6,18 @@ import 'package:scope_manager/src/base/dependency_scope.dart';
 import 'package:scope_manager/src/base/scope_observer.dart';
 import 'package:scope_manager/src/base/scope_registry.dart';
 import 'package:scope_manager/src/base/scope_resolver.dart';
+import 'package:scope_manager/src/widgets/scopes.dart';
 
+/// A central management class for dependency scopes. It is responsible for
+/// registering, resolving, and managing the lifecycle of dependency scopes.
+///
+/// This class is designed as a singleton. However, try to avoid direct
+/// interactions via [ScopeManager.instance]. Use [Scopes] or
+/// provided [ScopeResolver] instances instead.
+///
+/// See also:
+/// [ScopeRegistry], [ScopeResolver], and [ScopeObserver] for more details
+/// on specific areas of functionality.
 class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   static final _instance = ScopeManager._internal();
 
