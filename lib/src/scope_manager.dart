@@ -25,7 +25,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   late final Type _rootType;
   late final RootScope _rootScope;
   var _isInit = false;
-  var _isObservable = false;
+  var _isObservable = kDebugMode;
 
   static ScopeManager get instance => _instance;
 
@@ -43,7 +43,6 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   Future<void> init(
     RootScope rootScope, {
     List<ScopeBinding>? bindings,
-    bool observable = kDebugMode,
   }) async {
     if (_isInit) {
       throw StateError(
@@ -53,11 +52,9 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
     } else {
       await rootScope.init();
 
-      // hold the root scope by the manager itself.
       final type = rootScope.runtimeType;
       _rootType = type;
       _rootScope = rootScope;
-      _isObservable = observable;
       _isInit = true;
 
       if (bindings != null) {
@@ -203,6 +200,22 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
       );
     }
     return scope as S;
+  }
+
+  @override
+  void setObservability({required bool isObservable}) {
+    if (isObservable == _isObservable) {
+      return;
+    }
+
+    _isObservable = isObservable;
+
+    if (!_isObservable) {
+      _subscribersPublisher.value = {};
+      _scopesPublisher.value = {};
+    } else {
+      _updateOvservability();
+    }
   }
 
   Future<void> dispose() async {

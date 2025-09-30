@@ -3,14 +3,13 @@ import 'package:scope_manager/scope_manager.dart';
 
 /// An interface that provides information about currently active
 /// [FeatureScope] instances and their subscribers.
-/// 
-/// Information provided only when [ScopeManager] operates in observable 
-/// mode — usually in debug builds, unless otherwise specified during
-/// [ScopeManager] initialization.
-/// 
-/// See also:
-/// [ScopeManager.init] for details of the initialization process.
+///
+/// Information provided only in observable mode — usually in debug builds,
+/// unless otherwise specified via [setObservability] method.
 abstract interface class ScopeObserver {
+  /// Enables or disables the observability mode.
+  void setObservability({required bool isObservable});
+
   /// Publishes a mapping of subscribers grouped by scope type and optional tag.
   ///
   /// Structure:

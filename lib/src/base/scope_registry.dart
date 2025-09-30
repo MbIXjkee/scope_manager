@@ -7,7 +7,6 @@ typedef ScopeFactory<S extends FeatureScope> = S Function(
   ScopeResolver resolver,
 );
 
-// observable may cause additional performance pressure.
 /// An interface for registering available dependency scopes.
 abstract interface class ScopeRegistry {
   /// Initializes the registry.
@@ -17,8 +16,6 @@ abstract interface class ScopeRegistry {
   Future<void> init(
     RootScope rootScope, {
     List<ScopeBinding>? bindings,
-    // TODO(mjk): move this to observer.
-    bool observable,
   });
 
   /// Registers a binding for a [FeatureScope] type to its factory.
