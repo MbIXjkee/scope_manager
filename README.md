@@ -23,19 +23,19 @@ DependencyScope is a group of dependencies that share the same lifecycle. There 
 two types of scopes in this package:
 
   - **RootScope**: lives throughout the entire app lifecycle. Usually
-    contains dependencies that should always be alive. This is a single-instance scope for the whole application, it has asynchronous initialization support,
-    and is never been destroyed.
+    contains dependencies that should always be alive. This is a single-instance scope for the whole application; it supports asynchronous initialization
+    and is never destroyed.
 
   - **FeatureScope**: created on demand and destroyed when no longer needed.
     A group of dependencies that share similar temporal reasoning for existence:
-    an authenticated application zone, or part of the specific feature. Application
-    can have multiple types of this scope, related to various features; many instances of the same scope, or don't have any.
+    an authenticated application zone, or part of a specific feature. An application
+    can have multiple types of this scope related to various features, many instances of the same scope, or none at all.
 
-There is no requirements how exactly to implement a scope. You can create a simple class with manual implementation or use any 3rd party libraries.
+There are no requirements for how to implement a scope. You can create a simple class with a manual implementation or use any third‑party library.
 
 ### ScopeManager
 
-ScopeManager is a central management class responsible for handling scopes existence. It holds and analizes subscriptions to specific scopes, and based on stakeholder existance creates and destroys scopes.
+ScopeManager is the central class responsible for managing the existence of scopes. It holds and analyzes subscriptions to specific scopes and, based on stakeholder existence, creates and destroys scopes.
 
 The rules are simple:
 
@@ -45,15 +45,15 @@ The rules are simple:
   
 # How to use
 
-In this block you'll find a step-by-step guide to integrate Scope Manager into your Flutter application.
+In this section, you'll find a step-by-step guide to integrating Scope Manager into your Flutter application.
 
 ### Create RootScope
 
-Create a class that implements `RootScope` interface. This class will hold all your app-wide dependencies.
-You can implement this class in any way you prefer, even use a 3rd party library, but in this examaple it is the most straightforward one - a simple Dart class that uses just language capabilities.
+Create a class that implements the `RootScope` interface. This class will hold all your app-wide dependencies.
+You can implement this class in any way you prefer—even using a third‑party library—but in this example it’s the most straightforward: a simple Dart class that uses only language capabilities.
 
 ```dart
-/// App level dependencies.
+/// App-level dependencies.
 abstract interface class IAppScope implements RootScope {
   /// Environment configuration.
   Environment get env;
@@ -68,7 +68,7 @@ abstract interface class IAppScope implements RootScope {
   Foo fooFactory();
 }
 
-/// Scope of dependencies which need through all app's lifecycle.
+/// Scope of dependencies that live throughout the app's lifecycle.
 class AppScope implements IAppScope {
   late final _env = Environment.instance;
   late final _baseClient = _initHttpClient();
@@ -79,7 +79,7 @@ class AppScope implements IAppScope {
   );
 
   // services
-  late final _authSevice = AuthService(
+  late final _authService = AuthService(
     authRepository: _authRepository,
   );
 
@@ -92,14 +92,14 @@ class AppScope implements IAppScope {
   Coordinator get coordinator => _coordinator;
 
   @override
-  IAuthService get authService => _authSevice;
+  IAuthService get authService => _authService;
 
   /// Create an instance of [AppScope].
   AppScope();
 
   @override
   Future<void> init() async {
-    await _authSevice.init();
+    await _authService.init();
 
     _coordinator = Coordinator(
       guards: [],
@@ -124,9 +124,9 @@ class AppScope implements IAppScope {
 
 ### Create FeatureScopes
 
-In the same manner, if necessary, create classes that implement `FeatureScope` interface. These classes will hold dependencies related to specific features or parts of your application.
+In the same manner, if necessary, create classes that implement the `FeatureScope` interface. These classes will hold dependencies related to specific features or parts of your application.
 
-The only difference is those classes have a dispose method, which will be called when the scope is no longer needed. In this method you should release all resources, close connections, etc.
+The only difference is that these classes have a `dispose` method, which will be called when the scope is no longer needed. In this method, you should release all resources, close connections, etc.
 
 ```dart
   @override
@@ -137,7 +137,7 @@ The only difference is those classes have a dispose method, which will be called
 
 ### Initialize ScopeManager
 
-Before you run your app, you need to initialize the `ScopeManager` with your `RootScope` implementation and define how `FeatureScope`s should be created.
+Before you run your app, you need to initialize the `ScopeManager` with your `RootScope` implementation and define how each `FeatureScope` should be created.
 
 ```dart
 void main() async {
@@ -170,7 +170,7 @@ Future<void> registerDependencies(ScopeRegistry registry) async {
 
 ### Make ScopeManager available in the widget tree
 
-Wrap your app with `Scopes` widget, which will make `ScopeManager` available to all its descendants.
+Wrap your app with the `Scopes` widget, which will make `ScopeManager` available to all its descendants.
 
 ```dart
 /// Application widget.
@@ -193,7 +193,7 @@ class App extends StatelessWidget {
 }
 ```
 
-Now you can access methods to subscribe, unsubscribe and resolve dependencies from a widget in your app, using:
+Now you can access methods to subscribe, unsubscribe, and resolve dependencies from a widget in your app, using:
 
 ```dart
 Scopes.of(context)
@@ -201,14 +201,14 @@ Scopes.of(context)
 
 ### Typical usage
 
-Usually, there is some visuallity goes together with requirement for creating a scope. For example a screen, tab, etc. Because of this, the preferable way to interact with scopes is from a widget.
+Usually, a visual element accompanies the need for creating a scope (for example, a screen or a tab). Because of this, the preferred way to interact with scopes is from a widget.
 
-For making it convenient, there is `ScopeSubscriberMixin` for `State`. When you this mixin, it makes a mentioned `FeatureScope` required while the widget is in the widget tree, and releases it when the widget is removed. To access held scope, you can use `scope` property.
+For convenience, there is `ScopeSubscriberMixin` for `State`. When you use this mixin, it marks the specified `FeatureScope` as required while the widget is in the widget tree and releases it when the widget is removed. To access the held scope, use the `scope` property.
 
 For example:
 
 ```dart
-/// Widget that represents authenticated zone of the app.
+/// Widget that represents the authenticated zone of the app.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -239,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen>
 }
 ```
 
-Despite the major usecase of subscribing from a widget, you can subscribe and unsubscribe manually from anywhere in your code. Just make sure to unsubscribe when the scope is no longer needed.
+Even though the main use case is subscribing from a widget, you can subscribe and unsubscribe manually from anywhere in your code. Just be sure to unsubscribe when the scope is no longer needed.
 
 # Maintainer
 <a href="https://github.com/MbIXjkee">
@@ -262,4 +262,4 @@ Thank you for all your support!
 
 # License
 
-This project is licensed under the MIT License. See [LICENSE](https://github.com/MbIXjkee/sliver_catalog/blob/main/LICENSE) for details.
+This project is licensed under the MIT License. See [LICENSE](https://github.com/MbIXjkee/scope_manager/blob/main/LICENSE) for details.
