@@ -1,3 +1,9 @@
+# Scope Manager
+
+<p align="center">
+    <img src="https://i.ibb.co/3q0s9XS/sm.png" alt="Scope Manager Logo" height="180">
+</p>
+
 <p align="center">
     <a href="https://github.com/MbIXjkee"><img src="https://img.shields.io/badge/Owner-mbixjkee-blueviolet.svg" alt="Owner"></a>
     <a href="https://pub.dev/packages/scope_manager"><img src="https://img.shields.io/pub/v/scope_manager?logo=dart&logoColor=white" alt="Pub Version"></a>
