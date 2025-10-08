@@ -21,6 +21,17 @@
 
 Scope Manager is a lightweight lifecycle manager for dependency scopes in Flutter apps. It helps you group and control dependencies by lifetime (app-wide vs. feature-specific), automatically creating groups of dependencies when needed and disposing them when they’re no longer used.
 
+### Playground
+
+<p>
+  <a href="https://mbixjkee.github.io/scope_manager/release_X.X.X/" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/badge/current-Demo-blue?style=for-the-badge" alt="Actual release demo" />
+  </a>
+    <a href="https://mbixjkee.github.io/scope_manager/latest/" target="_blank" rel="noopener">
+    <img src="https://img.shields.io/badge/upcoming-Demo-blue?style=for-the-badge" alt="Upcoming release demo" />
+  </a>
+</p>
+
 # Core concepts
 
 ### DependencyScope
