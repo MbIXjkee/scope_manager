@@ -1,4 +1,8 @@
 ## Unreleased
+### Added
+* Documentation for classes and detailed Readme.
+### Changed
+* Observability controll moved to a separate method setObservability.
 
 ## 0.0.4
 ### Added
