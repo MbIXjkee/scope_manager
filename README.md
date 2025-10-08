@@ -241,6 +241,14 @@ class _HomeScreenState extends State<HomeScreen>
 
 Even though the main use case is subscribing from a widget, you can subscribe and unsubscribe manually from anywhere in your code. Just be sure to unsubscribe when the scope is no longer needed.
 
+# Observability
+
+For debugging purposes, to help you monitor the state of scopes and their subscriptions, `ScopeManager` provides a way to observe changes.
+
+First, you need to enable observability mode by calling the `setObservability` method on the `ScopeObserver` instance. This mode is also enabled by default in debug builds.
+
+When observability mode is enabled, you can use `subscribersPublisher` and `scopesPublisher` to listen for changes in subscriptions and active scopes, respectively. There is also an `ObservingInfo` widget that displays this information in a simple UI, which you can include in your debug screen.
+
 # Maintainer
 <a href="https://github.com/MbIXjkee">
     <div style="display: inline-block;">
