@@ -4,7 +4,7 @@ version: 0.0.4
 homepage: "https://github.com/MbIXjkee"
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
+  sdk: ">=3.0.5 <4.0.0"
   flutter: ">=3.32.0"
 
 dependencies:
@@ -12,9 +12,10 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
+  mocktail: ^1.0.4
   flutter_test:
     sdk: flutter
-  
+
   # rules
   mjk_lint_rules: ^4.0.3
 

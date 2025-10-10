@@ -50,6 +50,13 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
 
   ScopeManager._internal();
 
+  /// A factory constructor for creating a [ScopeManager] instance
+  /// suitable for testing purposes (creates a new instance every time).
+  ///
+  /// Should be used only in tests.
+  @visibleForTesting
+  factory ScopeManager.test() => ScopeManager._internal();
+
   @override
   Future<void> init(
     RootScope rootScope, {
@@ -191,6 +198,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
     Object? tag,
   }) {
     _validateIsInit();
+    _validateParameter<S>();
     if (S == _rootType) {
       assert(
         tag == null,
