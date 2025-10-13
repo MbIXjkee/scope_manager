@@ -30,6 +30,9 @@ class _ObservingInfoState extends State<ObservingInfo> {
   void initState() {
     super.initState();
 
+    _subs.value = widget.observer.subscribersPublisher.value;
+    _scopes.value = widget.observer.scopesPublisher.value;
+
     // updates of these publishers often happen during build phase,
     // so need to be postponed to not break build pipeline.
     widget.observer.subscribersPublisher.addListener(
