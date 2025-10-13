@@ -41,7 +41,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   static ScopeManager get instance => _instance;
 
   @override
-  ValueNotifier<Map<Type, Map<Object?, FeatureScope>>> get scopesPublisher =>
+  ValueListenable<Map<Type, Map<Object?, FeatureScope>>> get scopesPublisher =>
       _scopesPublisher;
 
   @override
