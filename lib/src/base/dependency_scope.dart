@@ -57,12 +57,16 @@ abstract class BaseFeatureScope implements FeatureScope {
   BaseFeatureScope({required this.resolver});
 
   @override
+  @protected
+  @visibleForTesting
   S bindWith<S extends FeatureScope>() {
     resolver.subscribeToScope<S>(this);
     return resolver.getScope<S>();
   }
 
   @override
+  @protected
+  @visibleForTesting
   void unbindFrom<C extends FeatureScope>() {
     resolver.unsubscribeFromScope<C>(this);
   }
