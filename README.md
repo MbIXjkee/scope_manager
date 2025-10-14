@@ -10,7 +10,7 @@
     <a href="https://pub.dev/packages/scope_manager"><img src="https://badgen.net/pub/points/scope_manager" alt="Pub points"></a>
     <a href="https://pub.dev/packages/scope_manager"><img src="https://badgen.net/pub/likes/scope_manager" alt="Pub Likes"></a>
     <a href="https://pub.dev/packages/scope_manager"><img src="https://img.shields.io/pub/dm/scope_manager" alt="Downloads"></a>
-    <!-- TODO: codecov -->
+    <a href="https://codecov.io/gh/MbIXjkee/scope_manager"><img src="https://codecov.io/gh/MbIXjkee/scope_manager/graph/badge.svg?token=H59EM63BS8" alt="Coverage Status"/></a>
     <a href="https://github.com/MbIXjkee/scope_manager/graphs/contributors"><img src="https://badgen.net/github/contributors/MbIXjkee/scope_manager" alt="Contributors"></a>
     <a href="https://github.com/MbIXjkee/scope_manager/blob/main/LICENSE"><img src="https://badgen.net/github/license/MbIXjkee/scope_manager" alt="License"></a>
 </p>
