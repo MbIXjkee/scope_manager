@@ -6,6 +6,7 @@ import 'package:scope_manager/scope_manager.dart';
 Future<void> main() async {
   final scopeManager = ScopeManager.instance;
   await registerDependencies(scopeManager);
+  scopeManager.setObservability(isObservable: true);
 
   runApp(
     MainApp(
