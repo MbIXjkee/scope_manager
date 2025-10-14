@@ -41,7 +41,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
   static ScopeManager get instance => _instance;
 
   @override
-  ValueNotifier<Map<Type, Map<Object?, FeatureScope>>> get scopesPublisher =>
+  ValueListenable<Map<Type, Map<Object?, FeatureScope>>> get scopesPublisher =>
       _scopesPublisher;
 
   @override
@@ -49,6 +49,13 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
       get subscribersPublisher => _subscribersPublisher;
 
   ScopeManager._internal();
+
+  /// A factory constructor for creating a [ScopeManager] instance
+  /// suitable for testing purposes (creates a new instance every time).
+  ///
+  /// Should be used only in tests.
+  @visibleForTesting
+  factory ScopeManager.test() => ScopeManager._internal();
 
   @override
   Future<void> init(
@@ -191,6 +198,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
     Object? tag,
   }) {
     _validateIsInit();
+    _validateParameter<S>();
     if (S == _rootType) {
       assert(
         tag == null,

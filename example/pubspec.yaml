@@ -18,7 +18,7 @@ dev_dependencies:
     sdk: flutter
 
   # rules
-  mjk_lint_rules: ^4.0.3
+  mjk_lint_rules: ^4.0.4
 
 flutter:
   uses-material-design: true

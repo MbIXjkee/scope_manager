@@ -10,7 +10,7 @@ typedef ScopeFactory<S extends FeatureScope> = S Function(
 /// An interface for registering available dependency scopes.
 abstract interface class ScopeRegistry {
   /// Initializes the registry.
-  /// 
+  ///
   /// Sets up the [RootScope] and optionally registers additional
   /// [FeatureScope] bindings to create them on demand.
   Future<void> init(
