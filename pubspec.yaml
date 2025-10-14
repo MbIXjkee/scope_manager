@@ -1,6 +1,6 @@
 name: scope_manager
 description: "A package that helps with managing dependency scopes in the application"
-version: 0.0.4
+version: 0.1.0
 homepage: "https://github.com/MbIXjkee"
 
 environment:

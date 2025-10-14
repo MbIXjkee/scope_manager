@@ -1,4 +1,6 @@
 ## Unreleased
+
+## 0.1.0
 ### Added
 * Documentation for classes and detailed Readme.
 ### Changed
