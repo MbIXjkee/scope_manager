@@ -1,7 +1,20 @@
 name: scope_manager
 description: "A package that helps with managing dependency scopes in the application"
 version: 0.1.0
-homepage: "https://github.com/MbIXjkee"
+homepage: "https://github.com/MbIXjkee/scope_manager"
+repository: "https://github.com/MbIXjkee/scope_manager"
+issue_tracker: "https://github.com/MbIXjkee/scope_manager/issues"
+
+funding:
+  - https://github.com/sponsors/MbIXjkee
+  - https://buymeacoffee.com/mbixjkee
+  - https://www.patreon.com/MbIXJkee
+  - https://boosty.to/mbixjkee
+
+topics:
+  - dependency-injection
+  - scope
+  - lifecycle
 
 environment:
   sdk: ">=3.0.5 <4.0.0"
