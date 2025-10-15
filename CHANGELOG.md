@@ -1,4 +1,6 @@
 ## Unreleased
+### Added
+* Package meta information.
 
 ## 0.1.0
 ### Added
