@@ -18,9 +18,7 @@ Future<void> main() async {
 Future<void> registerDependencies(ScopeRegistry registry) async {
   final appScope = AppScope();
 
-  await registry.init(
-    RootBinding<IAppScope>(appScope)
-  );
+  await registry.init(RootBinding<IAppScope>(appScope));
 
   registry
     ..registerScopeBinding(
