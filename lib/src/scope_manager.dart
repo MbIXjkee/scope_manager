@@ -75,7 +75,7 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
       if (type == RootScope) {
         type = rootScope.runtimeType;
       }
-      
+
       _rootType = type;
       _rootScope = rootScope;
       _isInit = true;
