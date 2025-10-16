@@ -24,7 +24,7 @@ Scope Manager is a lightweight lifecycle manager for dependency scopes in Flutte
 ### Playground
 
 <p>
-  <a href="https://mbixjkee.github.io/scope_manager/release_0.1.1/" target="_blank" rel="noopener">
+  <a href="https://mbixjkee.github.io/scope_manager/release_0.2.0/" target="_blank" rel="noopener">
     <img src="https://img.shields.io/badge/current-Demo-blue?style=for-the-badge" alt="Actual release demo" />
   </a>
     <a href="https://mbixjkee.github.io/scope_manager/latest/" target="_blank" rel="noopener">
