@@ -11,8 +11,8 @@ void main() {
       final root = _TestRootScope();
 
       await sm.init(
-        root,
-        bindings: [
+        RootBinding(root),
+        featureBindings: [
           ScopeBinding<_TestFeatureScope>(
             (resolver) => _TestFeatureScope(resolver: resolver),
           ),

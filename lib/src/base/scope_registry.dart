@@ -11,11 +11,11 @@ typedef ScopeFactory<S extends FeatureScope> = S Function(
 abstract interface class ScopeRegistry {
   /// Initializes the registry.
   ///
-  /// Sets up the [RootScope] and optionally registers additional
-  /// [FeatureScope] bindings to create them on demand.
+  /// Sets up the [RootScope] via [RootBinding] and optionally registers
+  /// additional [FeatureScope] bindings to create them on demand.
   Future<void> init(
-    RootScope rootScope, {
-    List<ScopeBinding>? bindings,
+    RootBinding rootBinding, {
+    List<ScopeBinding>? featureBindings,
   });
 
   /// Registers a binding for a [FeatureScope] type to its factory.
@@ -35,4 +35,14 @@ class ScopeBinding<S extends FeatureScope> {
   Type get scopeType => S;
 
   ScopeBinding(this.factory);
+}
+
+/// A support class that allows to specify the type which is associated
+/// with the [RootScope] instance.
+class RootBinding<S extends RootScope> {
+  final S scope;
+
+  Type get scopeType => S;
+
+  RootBinding(this.scope);
 }
