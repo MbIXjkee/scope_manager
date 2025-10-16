@@ -1,4 +1,6 @@
 ## Unreleased
+
+## 0.2.0
 ### Added
 * RootBinding that allows to specify the type associated with the RootScope instance.
 
