@@ -59,8 +59,8 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
 
   @override
   Future<void> init(
-    RootScope rootScope, {
-    List<ScopeBinding>? bindings,
+    RootBinding rootBinding, {
+    List<ScopeBinding>? featureBindings,
   }) async {
     if (_isInit) {
       throw StateError(
@@ -68,15 +68,20 @@ class ScopeManager implements ScopeRegistry, ScopeResolver, ScopeObserver {
         'call init() multiple times.',
       );
     } else {
+      final rootScope = rootBinding.scope;
       await rootScope.init();
 
-      final type = rootScope.runtimeType;
+      var type = rootBinding.scopeType;
+      if (type == RootScope) {
+        type = rootScope.runtimeType;
+      }
+      
       _rootType = type;
       _rootScope = rootScope;
       _isInit = true;
 
-      if (bindings != null) {
-        for (final binding in bindings) {
+      if (featureBindings != null) {
+        for (final binding in featureBindings) {
           _registerScopeFactoryTyped(binding.scopeType, binding.factory);
         }
       }

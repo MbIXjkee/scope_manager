@@ -31,16 +31,16 @@ void main() {
     test('should call initialization of passed root scope', () async {
       expect(root.isInit, isFalse);
 
-      await sm.init(root);
+      await sm.init(RootBinding(root));
 
       expect(root.isInit, isTrue);
     });
 
     test('should throw if initialized more than once', () async {
-      await sm.init(root);
+      await sm.init(RootBinding(root));
 
       await expectLater(
-        () => sm.init(root),
+        () => sm.init(RootBinding(root)),
         throwsA(isA<StateError>().having(
           (e) => e.message,
           'message',
@@ -51,8 +51,8 @@ void main() {
 
     test('should register passed scope bindings', () async {
       await sm.init(
-        root,
-        bindings: [
+        RootBinding(root),
+        featureBindings: [
           ScopeBinding<_TestFeatureAScope>(
             (resolver) => _TestFeatureAScope(resolver: resolver),
           ),
@@ -81,7 +81,7 @@ void main() {
       setUp(() async {
         root = _TestRoot();
         sm = ScopeManager.test();
-        await sm.init(root);
+        await sm.init(RootBinding(root));
       });
 
       test('should register scope factory', () {
@@ -121,8 +121,8 @@ void main() {
         root = _TestRoot();
         sm = ScopeManager.test();
         await sm.init(
-          root,
-          bindings: [
+          RootBinding(root),
+          featureBindings: [
             ScopeBinding<_TestFeatureAScope>(
               (resolver) => _TestFeatureAScope(resolver: resolver),
             ),
@@ -261,8 +261,8 @@ void main() {
       root = _TestRoot();
       sm = ScopeManager.test();
       await sm.init(
-        root,
-        bindings: [
+        RootBinding(root),
+        featureBindings: [
           ScopeBinding<_TestFeatureAScope>(
             (resolver) => _TestFeatureAScope(resolver: resolver),
           ),
